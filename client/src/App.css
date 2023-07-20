@@ -1,0 +1,50 @@
+.App {
+  text-align: center;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flex-col ul {
+  max-width: 40%;
+}
+
+.nav-bar {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+img {
+  max-width: 150px;
+}
+
+.browse-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 2%;
+  grid-row-gap: 2%;
+  padding: 4%;
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  max-width: 100%;
+  padding-left: 30%;
+  padding-right: 30%;
+  margin-top: 30px;
+}
+
+.ingredients-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}

@@ -65,6 +65,7 @@ def login():
 
 @app.get('/current_session')
 def check_session():
+    # ipdb.set_trace()
     if logged_in():
         return get_current_user().to_dict(), 200
     else:
@@ -95,7 +96,17 @@ class Drinks(Resource):
         drinks = Drink.query.all()
         response_body = []
         for drink in drinks:
-            response_body.append(drink.to_dict())
+            ingredient_list = []
+            drink_dict = drink.to_dict()
+            for ingredient in drink.drink_ingredients:
+                if ingredient.quantity:
+                    ingredient_list.append(f'{ingredient.quantity} of {ingredient.ingredient.name}')
+                else:
+                    ingredient_list.append(f'{ingredient.ingredient.name}')
+                drink_dict.update({
+                    "ingredients": ingredient_list
+                })
+            response_body.append(drink_dict)
         return make_response(jsonify(response_body), 200)
 
     def post(self):
@@ -103,19 +114,29 @@ class Drinks(Resource):
             data = request.get_json()
             new_drink = Drink(
                 name=data.get('name'),
-                image=data.get('image')
+                image=data.get('image'),
+                instructions=data.get('instructions')
             )
             ingredient_list = data.get('ingredients').split(', ')
             for ingredient_entry in ingredient_list:
-                ingredient_parts = ingredient_entry.split(' ')
-                ingredient_quantity = ingredient_parts[0]
-                ingredient_name = ' '.join(ingredient_parts[1:])
-
-                ingredient = Ingredient.query.filter_by(name=ingredient_name).first()
+                if ';' in ingredient_entry:
+                    ingredient_parts = ingredient_entry.split('; ')
+                    ingredient_quantity = ingredient_parts[0]
+                    ingredient_name = ingredient_parts[1]
+                    ingredient = Ingredient.query.filter_by(name=ingredient_name).first()
+                else:
+                    ingredient_quantity = False
+                    ingredient_name = ingredient_entry
+                    ingredient = Ingredient.query.filter_by(name=ingredient_name).first()
+                
                 if not ingredient:
                     ingredient = Ingredient(name=ingredient_name)
                     db.session.add(ingredient)
-                drink_ingredient = DrinkIngredient(ingredient=ingredient, quantity=ingredient_quantity)
+                if ingredient_quantity:
+                    drink_ingredient = DrinkIngredient(ingredient=ingredient, quantity=ingredient_quantity)
+                else:
+                    drink_ingredient = DrinkIngredient(ingredient=ingredient)
+                db.session.add(drink_ingredient)
                 new_drink.drink_ingredients.append(drink_ingredient)
 
             db.session.add(new_drink)
@@ -128,6 +149,25 @@ class Drinks(Resource):
             return make_response(jsonify(response_body), 400)
 
 api.add_resource(Drinks, '/drinks')
+
+
+class DrinksById(Resource):
+
+    def get(self, id):
+        drink = Drink.query.filter(Drink.id == id).first()
+        ingredient_list = []
+        for ingredient in drink.drink_ingredients:
+            if ingredient.quantity:
+                ingredient_list.append(f'{ingredient.quantity} of {ingredient.ingredient.name}')
+            else:
+                ingredient_list.append(f'{ingredient.ingredient.name}')
+        response_body = drink.to_dict()
+        response_body.update({
+            "ingredients": ingredient_list
+        })
+        return make_response(jsonify(response_body), 200)
+
+api.add_resource(DrinksById, '/drinks/<int:id>')
 
 
 class Ingredients(Resource):
@@ -154,6 +194,29 @@ class Ingredients(Resource):
             return make_response(jsonify(response_body), 400)
 
 api.add_resource(Ingredients, '/ingredients')
+
+
+class IngredientsById(Resource):
+
+    def patch(self, id):
+        ingredient = Ingredient.query.filter(Ingredient.id == id).first()
+        if not ingredient:
+            return make_response({'error': 'Ingredient not found'}, 404)
+        data=request.get_json()
+        for key in data:
+            setattr(ingredient, key, data.get(key))
+        db.session.commit()
+        response_body = ingredient.to_dict()
+        return make_response(jsonify(response_body), 200)
+
+    def delete(self, id):
+        ingredient = Ingredient.query.filter(Ingredient.id == id).first()
+        db.session.delete(ingredient)
+        db.session.commit()
+        response_body = {}
+        return make_response(jsonify(response_body), 204)
+
+api.add_resource(IngredientsById, '/ingredients/<int:id>')
 
 
 class DrinkIngredients(Resource):
@@ -184,6 +247,22 @@ class DrinkIngredients(Resource):
 api.add_resource(DrinkIngredients, '/drink_ingredients')
 
 
+class DrinkIngredientsById(Resource):
+
+    def patch(self, id):
+        drink_ingredient = DrinkIngredient.query.filter(DrinkIngredient.id == id).first()
+        if not drink_ingredient:
+            return make_response({'error': 'Drink ingredient not found'}, 404)
+        data=request.get_json()
+        for key in data:
+            setattr(drink_ingredient, key, data.get(key))
+        db.session.commit()
+        response_body = drink_ingredient.to_dict()
+        return make_response(jsonify(response_body), 200)
+
+api.add_resource(DrinkIngredientsById, '/drink_ingredients/<int:id>')
+
+
 class UserDrinks(Resource):
 
     def get(self):
@@ -192,6 +271,21 @@ class UserDrinks(Resource):
         for user_drink in user_drinks:
             response_body.append(user_drink.to_dict())
         return make_response(jsonify(response_body), 200)
+
+    def post(self):
+        try:
+            data=request.get_json()
+            new_user_drink = UserDrink(
+                user_id=data.get('user_id'),
+                drink_id=data.get('drink_id')
+            )
+            db.session.add(new_user_drink)
+            db.session.commit()
+            response_body = new_user_drink.to_dict()
+            return make_response(jsonify(response_body), 200)
+        except ValueError:
+            response_body = {'errors': ['validation errors']}
+            return make_response(jsonify(response_body), 400)
 
 api.add_resource(UserDrinks, '/user_drinks')
 
@@ -202,10 +296,48 @@ class UserIngredients(Resource):
         user_ingredients = UserIngredient.query.all()
         response_body = []
         for user_ingredient in user_ingredients:
+            # ipdb.set_trace()
             response_body.append(user_ingredient.to_dict())
         return make_response(jsonify(response_body), 200)
 
+    def post(self):
+        try:
+            data=request.get_json()
+            new_user_ingredient = UserIngredient(
+                user_id=data.get('user_id'),
+                ingredient_id=data.get('ingredient_id')
+            )
+            db.session.add(new_user_ingredient)
+            db.session.commit()
+            response_body = new_user_ingredient.to_dict()
+            return make_response(jsonify(response_body), 200)
+        except ValueError:
+            response_body = {'errors': ['validation errors']}
+            return make_response(jsonify(response_body), 400)
+
 api.add_resource(UserIngredients, '/user_ingredients')
+
+
+class UserIngredientsById(Resource):
+
+    def get(self, id):
+        user_ingredients = UserIngredient.query.filter(UserIngredient.user_id == id)
+        response_body = []
+        for user_ingredient in user_ingredients:
+            # ipdb.set_trace()
+            response_body.append(user_ingredient.to_dict())
+        return make_response(jsonify(response_body), 200)
+
+    def delete(self, id):
+        user_ingredient = UserIngredient.query.filter(UserIngredient.id == id).first()
+        if not user_ingredient:
+            return make_response({'error': 'User Ingredient not found'}, 404)
+        db.session.delete(user_ingredient)
+        db.session.commit()
+        response_body = {}
+        return make_response(jsonify(response_body), 204)
+
+api.add_resource(UserIngredientsById, '/user_ingredients/<int:id>')
 
 
 

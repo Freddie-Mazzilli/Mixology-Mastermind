@@ -34,6 +34,7 @@ class Drink(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False, unique=True)
     image = db.Column(db.String)
+    instructions = db.Column(db.String)
 
     # Relationships
     user_drinks = db.relationship('UserDrink', back_populates='drink', cascade='all, delete-orphan')
@@ -43,7 +44,7 @@ class Drink(db.Model, SerializerMixin):
     ingredients = association_proxy('drink_ingredients', 'ingredient', creator=lambda i: DrinkIngredient(ingredient=i))
 
     # Serializer
-    serialize_rules = ('-user_drinks',)
+    serialize_rules = ('-user_drinks', '-drink_ingredients')
 
     # def to_dict(self):
     #     return {
@@ -68,7 +69,7 @@ class Ingredient(db.Model, SerializerMixin):
     drinks = association_proxy('drink_ingredients', 'drink', creator=lambda d: DrinkIngredient(drink=d))
 
     # Serializer
-    serialize_rules = ('-user_ingredients',)
+    serialize_rules = ('-user_ingredients', '-drink_ingredients')
 
     # def to_dict(self):
     #     return {
@@ -81,7 +82,7 @@ class DrinkIngredient(db.Model, SerializerMixin):
     __tablename__ = 'drink_ingredients'
 
     id = db.Column(db.Integer, primary_key=True)
-    quantity = db.Column(db.String, nullable=False)
+    quantity = db.Column(db.String)
 
     drink_id = db.Column(db.Integer, db.ForeignKey('drinks.id'))
     ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'))
@@ -130,4 +131,4 @@ class UserIngredient(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='user_ingredients')
 
     # Serializer
-    serialize_rules = ('-ingredient', '-user')
+    serialize_rules = ('-user',)
