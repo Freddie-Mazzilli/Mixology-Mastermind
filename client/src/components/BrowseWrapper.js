@@ -1,10 +1,10 @@
 import React from "react";
 import BrowseItem from "./BrowseItem";
 
-function BrowseWrapper({drinks}) {
+function BrowseWrapper({drinks, focusSelector}) {
 
     const drink = drinks.map((drink) => {
-        return <BrowseItem key={drink.id} drink={drink} />
+        return <BrowseItem key={drink.id} drink={drink} focusSelector={focusSelector} />
     })
 
     return(

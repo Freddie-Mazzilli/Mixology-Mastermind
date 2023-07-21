@@ -7,10 +7,10 @@ from models import db, User, Drink, Ingredient, DrinkIngredient, UserDrink, User
 with app.app_context():
 
 
-    # Drink.query.delete()
-    # Ingredient.query.delete()
-    # DrinkIngredient.query.delete()
-    # User.query.delete()
+    Drink.query.delete()
+    Ingredient.query.delete()
+    DrinkIngredient.query.delete()
+    User.query.delete()
     UserIngredient.query.delete()
 
 

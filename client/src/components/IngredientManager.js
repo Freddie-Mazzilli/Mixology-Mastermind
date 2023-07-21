@@ -7,18 +7,17 @@ function IngredientManager({currentUser, ingredients, userIngredients, setUserIn
     })
 
     const userIngredient = userIngredients.map(userIngredient => {
-        console.log(userIngredient)
         return <p onClick={deleteMyIngredients} id={userIngredient.id}>{userIngredient.id}. {userIngredient.ingredient.name}</p>
     })
 
 
     return(
         <div className="ingredients-grid">
-            <div>
+            <div className="ingredients-menu">
                 <h2>Ingredients List</h2>
                 {ingredient}
             </div>
-            <div>
+            <div className="ingredients-menu">
                 <h2>My Ingredients</h2>
                 {userIngredient}
             </div>

@@ -12,6 +12,8 @@ import Search from './Search';
 import Liquors from './Liquors';
 import IngredientManager from './IngredientManager';
 import MyBar from './MyBar';
+import Focus from './Focus'
+import MyDrinksWrapper from './MyDrinksWrapper'
 
 function App() {
 
@@ -23,8 +25,12 @@ function App() {
   const [ingredients, setIngredients] = useState([])
   const [userIngredients, setUserIngredients] = useState([])
   const [userDrinks, setUserDrinks] = useState([])
+  const [myBarDrinks, setMyBarDrinks] = useState([])
+  const [savedDrinks, setSavedDrinks] = useState([])
 
   const [searchText, setSearchText] = useState('')
+
+  
 
   useEffect(() => {
     fetch('/drinks')
@@ -111,6 +117,13 @@ function App() {
   }, [currentUser])
   const [loginToggle, setLoginToggle] = useState(true)
 
+  useEffect(() => {
+    if(currentUser){
+    fetch(`/user_drinks/${currentUser.id}`)
+    .then(res => res.json())
+    .then(savedDrinksData => setSavedDrinks(savedDrinksData))}
+  }, [userDrinks, currentUser])
+
   function loginToggleHandler() {
     setLoginToggle(!loginToggle)
   }
@@ -169,9 +182,8 @@ function App() {
     })
       .then(res => res.json())
       .then(newUserIngredient => {
-        // Update the state with the fetched data
         setUserIngredients([...userIngredients, newUserIngredient]);
-        console.log(userIngredients);
+        // console.log(userIngredients);
       });
   }
 
@@ -190,6 +202,52 @@ function App() {
       })
   }
 
+
+
+
+  function addMyDrinks(event) {
+    const new_user_drink = {
+      "user_id": currentUser.id,
+      "drink_id": event.target.id
+    };
+    console.log(new_user_drink);
+    fetch('/user_drinks', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(new_user_drink)
+    })
+      .then(res => res.json())
+      .then(newUserDrink => {
+        setUserDrinks([...userDrinks, newUserDrink]);
+        console.log(userDrinks);
+      });
+  }
+
+  function deleteMyDrinks(event) {
+      const drink_id = event.target.id
+      console.log(drink_id)
+      fetch(`/user_drinks/${drink_id}`, {
+          method: "DELETE"
+      })
+      .then(res => {
+          if(res.ok) {
+              setUserDrinks(userDrinks.filter(userDrink => {
+                  return userDrink.id != drink_id
+              }))
+          }
+      })
+  }
+
+
+
+
+
+
+
+
   function homeManager(){
     if(!currentUser){
       return(
@@ -199,11 +257,35 @@ function App() {
     return <Home user={currentUser} />
   }
 
+  useEffect(() => {
+    if (myBarDrinks) {
+      setMyBarDrinks([]);
+      const userIngredientsList = userIngredients.map(ingredient => ingredient.ingredient.name);
+      for (const drink of drinks) {
+        let ingredientsList = drink.ingredients.map(ingredient => {
+          const index = ingredient.split(' of ').length;
+          return ingredient.split(' of ')[index - 1];
+        });
+        let canMake = ingredientsList.every(ingredient => userIngredientsList.includes(ingredient));
+        if (canMake === true) {
+          setMyBarDrinks(prevDrinks => [...prevDrinks, drink]);
+        }
+      }
+    }
+  }, [userIngredients, drinks]);
+
+  const [focusDrink, setFocusDrink] = useState()
+
+  function focusSelector(event) {
+    setFocusDrink(event.target.alt)
+    history.push('/focus')
+  }
+  
+
   
 
   return (
     <div className="App">
-      <h1>Home Bar Manager</h1>
       <Nav logout={logout} />
       <Switch>
         <Route exact path='/'>
@@ -218,17 +300,22 @@ function App() {
         </Route>
         <Route exact path='/browse'>
           <Search setSearchText={setSearchText} />
-          <BrowseWrapper drinks={filteredDrinks} />
+          <BrowseWrapper drinks={filteredDrinks} focusSelector={focusSelector} />
         </Route>
         <Route exact path='/liquors'>
           <Liquors drinks={drinks} handleFormData={handleFormData}/>
-          <BrowseWrapper drinks={liquorDrinks} />
+          <BrowseWrapper drinks={liquorDrinks} focusSelector={focusSelector} />
         </Route>
         <Route exact path='/my_bar'>
           <IngredientManager addMyIngredients={addMyIngredients} deleteMyIngredients={deleteMyIngredients} currentUser={currentUser} ingredients={ingredients} userIngredients={userIngredients} setUserIngredients={setUserIngredients} />
-          <MyBar user={currentUser} userIngredients={userIngredients} drinks={drinks} />
+          <MyBar user={currentUser}  myBarDrinks={myBarDrinks} focusSelector={focusSelector}/>
         </Route>
-        <Route exact path='/my_drinks'></Route>
+        <Route exact path='/my_drinks'>
+          <MyDrinksWrapper deleteMyDrinks={deleteMyDrinks} focusSelector={focusSelector} drinks={savedDrinks} />
+        </Route>
+        <Route exact path='/focus'>
+          <Focus addMyDrinks={addMyDrinks} focusDrink={focusDrink} />
+        </Route>
       </Switch>
     </div>
   );

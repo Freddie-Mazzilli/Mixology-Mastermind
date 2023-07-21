@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  /* background-image: url(https://media.istockphoto.com/id/578088720/photo/wooden-table-with-a-view-of-blurred-beverages-bar-backdrop.jpg?s=612x612&w=0&k=20&c=Qe_j-Nd-BARia_x0i7wugsBKrzkYE1eMCFMJeicTpKA=); */
+  /* background-size: cover; */
+  /* background-position: center; */
 }
 
 .flex-col {
@@ -31,6 +34,10 @@ img {
   padding: 4%;
 }
 
+.browse-card {
+  position: relative;
+}
+
 .search {
   display: flex;
   flex-direction: row;
@@ -47,4 +54,49 @@ img {
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+}
+
+.drink-focus-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drink-focus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  max-width: 70%;
+}
+
+.drink-focus img {
+  max-width: 40%;
+}
+
+.focus-ingredient {
+  display: flex;
+}
+
+.focus-ingredient p {
+  font-size: 12px;
+}
+
+.ingredients-menu {
+  height: 400px;
+  overflow-y: auto;
+  border: 2px solid black;
+  margin: 5%;
+  padding: 10%;
+}
+
+.ingredients-menu p {
+  text-align: left;
+}
+
+.delete {
+  position: absolute;
+  top: 0;
+  left: 1;
+  cursor: pointer;
 }

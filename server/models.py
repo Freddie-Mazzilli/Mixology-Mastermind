@@ -115,7 +115,7 @@ class UserDrink(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='user_drinks')
 
     # Serializer
-    serialize_rules = ('-drink', '-user')
+    serialize_rules = ('-user',)
 
 
 class UserIngredient(db.Model, SerializerMixin):

@@ -1,10 +1,10 @@
 import React from "react";
 
-function BrowseItem({drink}) {
+function BrowseItem({drink, focusSelector}) {
 
     return(
         <div className="browse-card">
-            <img src={drink.image} alt={drink.id} />
+            <img onClick={focusSelector} src={drink.image} alt={drink.id} />
             <p>{drink.name}</p>
         </div>
     )

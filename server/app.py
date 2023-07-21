@@ -167,6 +167,13 @@ class DrinksById(Resource):
         })
         return make_response(jsonify(response_body), 200)
 
+    def delete(self, id):
+        drink = Drink.query.filter(Drink.id == id).first()
+        db.session.delete(drink)
+        db.session.commit()
+        response_body = {}
+        return make_response(jsonify(response_body), 204)
+
 api.add_resource(DrinksById, '/drinks/<int:id>')
 
 
@@ -288,6 +295,28 @@ class UserDrinks(Resource):
             return make_response(jsonify(response_body), 400)
 
 api.add_resource(UserDrinks, '/user_drinks')
+
+
+class UserDrinksById(Resource):
+
+    def get(self, id):
+        user_drinks = UserDrink.query.filter(UserDrink.user_id == id)
+        response_body = []
+        for user_drink in user_drinks:
+            # ipdb.set_trace()
+            response_body.append(user_drink.to_dict())
+        return make_response(jsonify(response_body), 200)
+
+    def delete(self, id):
+        user_drink = UserDrink.query.filter(UserDrink.id == id).first()
+        if not user_drink:
+            return make_response({'error': 'User Drink not found'}, 404)
+        db.session.delete(user_drink)
+        db.session.commit()
+        response_body = {}
+        return make_response(jsonify(response_body), 204)
+
+api.add_resource(UserDrinksById, '/user_drinks/<int:id>')
 
 
 class UserIngredients(Resource):
