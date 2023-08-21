@@ -14,7 +14,7 @@ function Login({attemptLogin, goHome}) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='login-form' onSubmit={handleSubmit}>
 
       <input type="text"
       onChange={handleChangeUsername}
@@ -22,7 +22,7 @@ function Login({attemptLogin, goHome}) {
       placeholder='username'
       />
 
-      <input type="text"
+      <input type="password"
       onChange={handleChangePassword}
       value={password}
       placeholder='password'

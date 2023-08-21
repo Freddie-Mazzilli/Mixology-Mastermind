@@ -308,7 +308,7 @@ class UserDrinksById(Resource):
         return make_response(jsonify(response_body), 200)
 
     def delete(self, id):
-        user_drink = UserDrink.query.filter(UserDrink.id == id).first()
+        user_drink = UserDrink.query.filter(UserDrink.drink_id == id).first()
         if not user_drink:
             return make_response({'error': 'User Drink not found'}, 404)
         db.session.delete(user_drink)

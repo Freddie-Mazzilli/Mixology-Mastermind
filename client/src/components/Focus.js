@@ -33,7 +33,7 @@ function Focus({focusDrink, addMyDrinks}) {
                     {ingredient}
                 </div>
                 <p>{selectedDrink.instructions}</p>
-                <button id={selectedDrink.id} onClick={addMyDrinks}>Add to My Drinks</button>
+                <button className="button" id={selectedDrink.id} onClick={addMyDrinks}>Add to My Drinks</button>
             </div>
         </div>
     )

@@ -15,7 +15,7 @@ function Signup({attemptSignup, goHome}) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='login-form' onSubmit={handleSubmit}>
 
       <input type="text"
       onChange={handleChangeUsername}
@@ -27,6 +27,11 @@ function Signup({attemptSignup, goHome}) {
       onChange={handleChangePassword}
       value={password}
       placeholder='password'
+      />
+
+      <input type="text"
+      value={password}
+      placeholder='confirm password'
       />
 
       <input type="submit"

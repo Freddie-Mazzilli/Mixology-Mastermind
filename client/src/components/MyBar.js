@@ -10,7 +10,7 @@ function MyBar({userIngredients, myBarDrinks, user, focusSelector}) {
 
 
     return(
-        <div className="browse-grid">
+        <div className="bar-grid">
             {option}
         </div>
     )

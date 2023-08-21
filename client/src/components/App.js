@@ -14,6 +14,8 @@ import IngredientManager from './IngredientManager';
 import MyBar from './MyBar';
 import Focus from './Focus'
 import MyDrinksWrapper from './MyDrinksWrapper'
+import Header from './Header'
+import Footer from './Footer';
 
 function App() {
 
@@ -286,37 +288,49 @@ function App() {
 
   return (
     <div className="App">
-      <Nav logout={logout} />
+      <Header />
       <Switch>
         <Route exact path='/'>
-          <div>
-            <button onClick={loginToggleHandler}>{loginToggle ? "Login" : "Signup"}</button>
+          <div className='landing-div'>
+            <button className='login-toggle' onClick={loginToggleHandler}>{loginToggle ? "Login" : "Signup"}</button>
             {loginSignupManager()}
             {loginError}
           </div>
         </Route>
         <Route exact path='/home'>
+          <Nav logout={logout} />
           {homeManager()}
         </Route>
         <Route exact path='/browse'>
+          <Nav logout={logout} />
           <Search setSearchText={setSearchText} />
           <BrowseWrapper drinks={filteredDrinks} focusSelector={focusSelector} />
         </Route>
         <Route exact path='/liquors'>
+          <Nav logout={logout} />
           <Liquors drinks={drinks} handleFormData={handleFormData}/>
           <BrowseWrapper drinks={liquorDrinks} focusSelector={focusSelector} />
         </Route>
         <Route exact path='/my_bar'>
+          <Nav logout={logout} />
+          <div className='bar-manager'>
+            <MyBar user={currentUser}  myBarDrinks={myBarDrinks} focusSelector={focusSelector}/>
+          </div>
           <IngredientManager addMyIngredients={addMyIngredients} deleteMyIngredients={deleteMyIngredients} currentUser={currentUser} ingredients={ingredients} userIngredients={userIngredients} setUserIngredients={setUserIngredients} />
-          <MyBar user={currentUser}  myBarDrinks={myBarDrinks} focusSelector={focusSelector}/>
         </Route>
         <Route exact path='/my_drinks'>
+          <Nav logout={logout} />
           <MyDrinksWrapper deleteMyDrinks={deleteMyDrinks} focusSelector={focusSelector} drinks={savedDrinks} />
         </Route>
         <Route exact path='/focus'>
+          <Nav logout={logout} />
           <Focus addMyDrinks={addMyDrinks} focusDrink={focusDrink} />
         </Route>
+        <Route exact path='/add'>
+          <Nav />
+        </Route>
       </Switch>
+      <Footer />
     </div>
   );
 }
