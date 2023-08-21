@@ -23,6 +23,10 @@
   margin-bottom: 2%;
 }
 
+.nav-bar a:hover {
+  font-style: italic;
+}
+
 img {
   max-width: 150px;
 }
@@ -206,4 +210,13 @@ img {
 
 a:visited {
   color: black;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.footer a {
+  cursor: text;
 }
