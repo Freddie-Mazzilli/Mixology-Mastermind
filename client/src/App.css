@@ -220,3 +220,49 @@ a {
 .footer a {
   cursor: text;
 }
+
+.add-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+}
+
+.add-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-flex2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-flex2 p {
+  margin: 0;
+}
+
+.form-flex2 input{
+  width: 70%;
+  margin: 1vh;
+}
+
+.drink-form-ingredients {
+  margin: 4%;
+  width: 90%;
+  height: 10vh;
+  white-space: normal;
+  word-wrap: break-word;
+}

@@ -16,6 +16,7 @@ import Focus from './Focus'
 import MyDrinksWrapper from './MyDrinksWrapper'
 import Header from './Header'
 import Footer from './Footer';
+import Add from './Add';
 
 function App() {
 
@@ -282,8 +283,18 @@ function App() {
     setFocusDrink(event.target.alt)
     history.push('/focus')
   }
-  
 
+  const [drinkFormData, setDrinkFormData] = useState({
+    "name": "",
+    "image": "",
+    "ingredients": "",
+    "instructions": ""
+  })
+
+  function updateDrinkFormData(event){
+    setDrinkFormData({...drinkFormData, [event.target.name]: event.target.value})
+    console.log(drinkFormData)
+  }
   
 
   return (
@@ -328,6 +339,7 @@ function App() {
         </Route>
         <Route exact path='/add'>
           <Nav />
+          <Add updateDrinkFormData={updateDrinkFormData}/>
         </Route>
       </Switch>
       <Footer />
