@@ -295,6 +295,15 @@ function App() {
     setDrinkFormData({...drinkFormData, [event.target.name]: event.target.value})
     console.log(drinkFormData)
   }
+
+  const [ingredientFormData, setIngredientFormData] = useState({
+    "name": ""
+  })
+
+  function updateIngredientFormData(event){
+    setIngredientFormData({...ingredientFormData, [event.target.name]: event.target.value})
+    console.log(ingredientFormData)
+  }
   
 
   return (
@@ -339,7 +348,7 @@ function App() {
         </Route>
         <Route exact path='/add'>
           <Nav />
-          <Add updateDrinkFormData={updateDrinkFormData}/>
+          <Add updateDrinkFormData={updateDrinkFormData} updateIngredientFormData={updateIngredientFormData}/>
         </Route>
       </Switch>
       <Footer />
