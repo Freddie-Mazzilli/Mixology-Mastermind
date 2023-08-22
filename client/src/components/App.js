@@ -205,9 +205,6 @@ function App() {
       })
   }
 
-
-
-
   function addMyDrinks(event) {
     const new_user_drink = {
       "user_id": currentUser.id,
@@ -245,12 +242,6 @@ function App() {
   }
 
 
-
-
-
-
-
-
   function homeManager(){
     if(!currentUser){
       return(
@@ -283,28 +274,6 @@ function App() {
     setFocusDrink(event.target.alt)
     history.push('/focus')
   }
-
-  const [drinkFormData, setDrinkFormData] = useState({
-    "name": "",
-    "image": "",
-    "ingredients": "",
-    "instructions": ""
-  })
-
-  function updateDrinkFormData(event){
-    setDrinkFormData({...drinkFormData, [event.target.name]: event.target.value})
-    console.log(drinkFormData)
-  }
-
-  const [ingredientFormData, setIngredientFormData] = useState({
-    "name": ""
-  })
-
-  function updateIngredientFormData(event){
-    setIngredientFormData({...ingredientFormData, [event.target.name]: event.target.value})
-    console.log(ingredientFormData)
-  }
-  
 
   return (
     <div className="App">
@@ -348,7 +317,7 @@ function App() {
         </Route>
         <Route exact path='/add'>
           <Nav />
-          <Add updateDrinkFormData={updateDrinkFormData} updateIngredientFormData={updateIngredientFormData}/>
+          <Add />
         </Route>
       </Switch>
       <Footer />
