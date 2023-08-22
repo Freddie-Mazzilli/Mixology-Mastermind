@@ -24,10 +24,17 @@ function AddDrink() {
         })
     }
 
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            addDrink(event)
+        }
+    }
+      
+
     return(
         <div className="form-flex">
           <h2>New Drink</h2>
-          <form onSubmit={addDrink} className="form-flex">
+          <form onKeyDown={handleKeyPress} onSubmit={addDrink} className="form-flex">
             <div className="form-flex2">
                 <input className="drink-form" onChange={updateDrinkFormData} type="text" name="name" value={drinkFormData.name} placeholder="Drink Name" required/>
                 <input className="drink-form" onChange={updateDrinkFormData} type="text" name="image" value={drinkFormData.image} placeholder="Image URL" required/>

@@ -17,12 +17,18 @@ function AddIngredient({}) {
         setIngredientFormData({"name": ""})
         console.log('Form Data Cleared:', ingredientFormData)
     }
+
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            addIngredient(event)
+        }
+    }
       
 
     return(
         <div className="form-flex">
             <h2>New Ingredient</h2>
-            <form className="form-flex" onSubmit={addIngredient}>
+            <form onKeyDown={handleKeyPress} className="form-flex" onSubmit={addIngredient}>
                 <div className="form-flex2">
                     <input onChange={updateIngredientFormData} value={ingredientFormData.name} type="text" name="name" placeholder="Ingredient Name" required/>
                     <button className="form" type="submit">Add Ingredient</button>
