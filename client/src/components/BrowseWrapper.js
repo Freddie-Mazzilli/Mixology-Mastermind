@@ -8,9 +8,11 @@ function BrowseWrapper({drinks, focusSelector}) {
     })
 
     return(
-        <div className="browse-grid">
-            {drink}
-        </div>
+        // <div className="content">
+            <div className="browse-grid">
+                {drink}
+            </div>
+        // </div>
     )
 }
 

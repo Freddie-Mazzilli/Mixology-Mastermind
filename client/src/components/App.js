@@ -277,6 +277,7 @@ function App() {
 
   return (
     <div className="App">
+      <div className='content'>
       <Header />
       <Switch>
         <Route exact path='/'>
@@ -320,6 +321,7 @@ function App() {
           <Add />
         </Route>
       </Switch>
+      </div>
       <Footer />
     </div>
   );
