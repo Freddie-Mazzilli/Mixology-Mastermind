@@ -112,38 +112,56 @@ class Drinks(Resource):
     def post(self):
         try:
             data = request.get_json()
-            new_drink = Drink(
-                name=data.get('name'),
-                image=data.get('image'),
-                instructions=data.get('instructions')
-            )
+
             ingredient_list = data.get('ingredients').split(', ')
+            missing_ingredients = []
             for ingredient_entry in ingredient_list:
                 if ';' in ingredient_entry:
                     ingredient_parts = ingredient_entry.split('; ')
-                    ingredient_quantity = ingredient_parts[0]
                     ingredient_name = ingredient_parts[1]
-                    ingredient = Ingredient.query.filter_by(name=ingredient_name).first()
                 else:
-                    ingredient_quantity = False
                     ingredient_name = ingredient_entry
-                    ingredient = Ingredient.query.filter_by(name=ingredient_name).first()
                 
+                ingredient = Ingredient.query.filter_by(name=ingredient_name).first()
                 if not ingredient:
-                    ingredient = Ingredient(name=ingredient_name)
-                    db.session.add(ingredient)
-                if ingredient_quantity:
-                    drink_ingredient = DrinkIngredient(ingredient=ingredient, quantity=ingredient_quantity)
-                else:
-                    drink_ingredient = DrinkIngredient(ingredient=ingredient)
-                db.session.add(drink_ingredient)
-                new_drink.drink_ingredients.append(drink_ingredient)
+                    missing_ingredients.append(ingredient_name)
+            if missing_ingredients:
+                error_message = f"Ingredients not in database: {', '.join(missing_ingredients)}"
+                response_body = {'errors': [error_message]}
+                return make_response(jsonify(response_body), 400)
 
-            db.session.add(new_drink)
-            db.session.commit()
+            if not missing_ingredients:
+                new_drink = Drink(
+                    name=data.get('name'),
+                    image=data.get('image'),
+                    instructions=data.get('instructions')
+                )
+                for ingredient_entry in ingredient_list:
+                    if ';' in ingredient_entry:
+                        ingredient_parts = ingredient_entry.split('; ')
+                        ingredient_quantity = ingredient_parts[0]
+                        ingredient_name = ingredient_parts[1]
+                        ingredient = Ingredient.query.filter_by(name=ingredient_name).first()
+                    else:
+                        ingredient_quantity = False
+                        ingredient_name = ingredient_entry
+                        ingredient = Ingredient.query.filter_by(name=ingredient_name).first()
+                    
+                    # if not ingredient:
+                    #     ingredient = Ingredient(name=ingredient_name)
+                    #     db.session.add(ingredient)
+                    if ingredient_quantity:
+                        drink_ingredient = DrinkIngredient(ingredient=ingredient, quantity=ingredient_quantity)
+                    else:
+                        drink_ingredient = DrinkIngredient(ingredient=ingredient)
+                    db.session.add(drink_ingredient)
+                    new_drink.drink_ingredients.append(drink_ingredient)
 
-            response_body = new_drink.to_dict()
-            return make_response(jsonify(response_body), 200)
+                db.session.add(new_drink)
+                db.session.commit()
+
+                response_body = new_drink.to_dict()
+                return make_response(jsonify(response_body), 200)
         except ValueError:
             response_body = {'errors': ['validation errors']}
             return make_response(jsonify(response_body), 400)

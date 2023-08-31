@@ -35,8 +35,6 @@ img {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
-  /* grid-column-gap: 2%; */
-  /* grid-row-gap: 2%; */
   padding: 4%;
   justify-content: center;
   align-items: center;
@@ -46,13 +44,6 @@ img {
 .browse-card .button {
   width: 10vw;
 }
-/* .content {
-  height: fit-content;
-} */
-/* 
-div {
-  box-sizing: border-box;
-} */
 
 .browse-card {
   position: relative;
@@ -63,7 +54,6 @@ div {
   justify-content: center;
   border: black solid 2px;
   height: 25vw;
-
 }
 
 .search {
@@ -180,11 +170,12 @@ div {
 }
 
 .bar-manager {
-  height: 200px;
+  height: 400px;
   overflow-y: auto;
   border: 2px solid black;
   margin: 5%;
-  padding: 10%;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
 .bar-grid {

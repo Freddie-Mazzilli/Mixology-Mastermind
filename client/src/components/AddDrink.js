@@ -16,6 +16,28 @@ function AddDrink() {
 
     function addDrink(event) {
         event.preventDefault()
+        fetch('/drinks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(drinkFormData),
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else if (response.status === 400) {
+                return response.json().then(data => {
+                    console.error(data.errors[0]);
+                });
+            } else {
+                // Handle other response statuses
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });    
+
         setDrinkFormData({
             "name": "",
             "image": "",
