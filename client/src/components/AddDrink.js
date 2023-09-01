@@ -31,7 +31,6 @@ function AddDrink() {
                     console.error(data.errors[0]);
                 });
             } else {
-                // Handle other response statuses
             }
         })
         .catch(error => {

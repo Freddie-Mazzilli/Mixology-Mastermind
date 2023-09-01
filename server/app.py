@@ -207,12 +207,16 @@ class Ingredients(Resource):
     def post(self):
         try:
             data = request.get_json()
-            new_ingredient = Ingredient(
-                name=data.get('name')
-            )
-            db.session.add(new_ingredient)
-            db.session.commit()
-            response_body = new_ingredient.to_dict()
+            ingredient_list = data.get('name').split(', ')
+            response_body = []
+            for ingredient_name in ingredient_list:
+
+                new_ingredient = Ingredient(
+                    name=ingredient_name
+                )
+                db.session.add(new_ingredient)
+                db.session.commit()
+                response_body.append(new_ingredient.to_dict())
             return make_response(jsonify(response_body), 200)
         except ValueError:
             response_body = {'errors': ['validation errors']}
