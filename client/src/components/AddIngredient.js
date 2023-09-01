@@ -13,6 +13,25 @@ function AddIngredient({}) {
     
     function addIngredient(event) {
         event.preventDefault()
+        fetch('/ingredients', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ingredientFormData),
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            } else if (response.status === 400) {
+                return response.json().then(data => {
+                    console.error(data.errors[0])
+                })
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error)
+        })
         console.log('Form Data Submitted:', ingredientFormData)
         setIngredientFormData({"name": ""})
         console.log('Form Data Cleared:', ingredientFormData)

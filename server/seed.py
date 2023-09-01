@@ -10,8 +10,9 @@ with app.app_context():
     Drink.query.delete()
     Ingredient.query.delete()
     DrinkIngredient.query.delete()
-    User.query.delete()
+    # User.query.delete()
     UserIngredient.query.delete()
+    UserDrink.query.delete()
 
 
     # drinks = []

@@ -25,17 +25,17 @@ function AddDrink() {
         })
         .then(response => {
             if (response.ok) {
-                return response.json();
+                return response.json()
             } else if (response.status === 400) {
                 return response.json().then(data => {
-                    console.error(data.errors[0]);
-                });
+                    console.error(data.errors[0])
+                })
             } else {
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-        });    
+            console.error('Error:', error)
+        })    
 
         setDrinkFormData({
             "name": "",
