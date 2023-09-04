@@ -46,10 +46,10 @@ function AddIngredient({}) {
 
     return(
         <div className="form-flex">
-            <h2>New Ingredient</h2>
+            <h2>New Ingredients</h2>
             <form onKeyDown={handleKeyPress} className="form-flex" onSubmit={addIngredient}>
-                <div className="form-flex2">
-                    <input onChange={updateIngredientFormData} value={ingredientFormData.name} type="text" name="name" placeholder="Ingredient Name" required/>
+                <div className="form-flex">
+                    <textarea className="drink-form-ingredients" onChange={updateIngredientFormData} value={ingredientFormData.name} type="text" name="name" placeholder="Ingredient Name(s) (comma separated)" required/>
                     <button className="form" type="submit">Add Ingredient</button>
                 </div>
             </form>

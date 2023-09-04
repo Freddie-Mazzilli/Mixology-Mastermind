@@ -209,10 +209,14 @@ class Ingredients(Resource):
             data = request.get_json()
             ingredient_list = data.get('name').split(', ')
             response_body = []
-            for ingredient_name in ingredient_list:
+            for ingredient in ingredient_list:
+                ingredient_parts = ingredient.split('; ')
+                ingredient_name = ingredient_parts[0]
+                ingredient_type = ingredient_parts[1]
 
                 new_ingredient = Ingredient(
-                    name=ingredient_name
+                    name=ingredient_name,
+                    type=ingredient_type
                 )
                 db.session.add(new_ingredient)
                 db.session.commit()

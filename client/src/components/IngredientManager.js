@@ -13,13 +13,17 @@ function IngredientManager({currentUser, ingredients, userIngredients, setUserIn
 
     return(
         <div className="ingredients-grid">
-            <div className="ingredients-menu">
-                <h2>Ingredients List</h2>
-                {ingredient}
+            <div>
+                <div className="ingredients-menu">
+                    <h2>Ingredients List</h2>
+                    {ingredient}
+                </div>
             </div>
-            <div className="ingredients-menu">
-                <h2>My Ingredients</h2>
-                {userIngredient}
+            <div>
+                <div className="ingredients-menu">
+                    <h2>My Ingredients</h2>
+                    {userIngredient}
+                </div>
             </div>
         </div>
     )

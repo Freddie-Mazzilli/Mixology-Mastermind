@@ -248,6 +248,7 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 50vw;
 }
 
 .form-flex2 {

@@ -60,6 +60,7 @@ class Ingredient(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False, unique=True)
+    type = db.Column(db.String, nullable=False)
 
     # Relationships
     user_ingredients = db.relationship('UserIngredient', back_populates='ingredient', cascade='all, delete-orphan')
@@ -93,6 +94,7 @@ class DrinkIngredient(db.Model, SerializerMixin):
 
     # Serializer
     serialize_rules = ('-ingredient', '-drink')
+
 
     # def to_dict(self):
     #     return {
