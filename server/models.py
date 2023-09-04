@@ -95,6 +95,13 @@ class DrinkIngredient(db.Model, SerializerMixin):
     # Serializer
     serialize_rules = ('-ingredient', '-drink')
 
+    # Validations
+    @validates('type')
+    def validate_type(self, key, value):
+        valid_types = [Liquor, Mixer, Garnish]
+        if not value in valid_types:
+            raise ValueError(f'Ingredient {key} must be one of the following: {valid_types}. You input: {value}.')
+        return value
 
     # def to_dict(self):
     #     return {
