@@ -136,6 +136,8 @@ class Drinks(Resource):
                     image=data.get('image'),
                     instructions=data.get('instructions')
                 )
+                db.session.add(new_drink)
+                
                 for ingredient_entry in ingredient_list:
                     if ';' in ingredient_entry:
                         ingredient_parts = ingredient_entry.split('; ')
@@ -147,9 +149,6 @@ class Drinks(Resource):
                         ingredient_name = ingredient_entry
                         ingredient = Ingredient.query.filter_by(name=ingredient_name).first()
                     
-                    # if not ingredient:
-                    #     ingredient = Ingredient(name=ingredient_name)
-                    #     db.session.add(ingredient)
                     if ingredient_quantity:
                         drink_ingredient = DrinkIngredient(ingredient=ingredient, quantity=ingredient_quantity)
                     else:
@@ -157,7 +156,6 @@ class Drinks(Resource):
                     db.session.add(drink_ingredient)
                     new_drink.drink_ingredients.append(drink_ingredient)
 
-                db.session.add(new_drink)
                 db.session.commit()
 
                 response_body = new_drink.to_dict()
