@@ -11,8 +11,8 @@
             "id": 2,
             "name": "Daiquiri",
             "image": "https://www.acouplecooks.com/wp-content/uploads/2019/05/Daiquiri-Cocktail-013.jpg",
-            "ingredients": "2oz; White Rum, 1oz; Lime Juice, 0.75oz; Simple Syrup",
-            "instructions": "Fill a shaker with ice. Add 2oz of white rum, 1oz of lime juice, and 0.75oz of simple syrup to the shaker. Shake well. Strain into a chilled cocktail glass. Garnish with a lime wheel."
+            "ingredients": "2oz; White Rum, 1oz; Lime Juice, 0.75oz; Simple Syrup, Lime Wedge",
+            "instructions": "Fill a shaker with ice. Add 2oz of white rum, 1oz of lime juice, and 0.75oz of simple syrup to the shaker. Shake well. Strain into a chilled cocktail glass. Garnish with a lime wedge."
         },
         {
             "id": 3,

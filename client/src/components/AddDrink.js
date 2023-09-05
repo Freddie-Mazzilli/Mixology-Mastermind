@@ -71,7 +71,7 @@ function AddDrink() {
                     </div>
                 </form>
             </div>
-            {/* <NewDrink selectedDrink={drinkFormData}/> */}
+            <NewDrink selectedDrink={drinkFormData}/>
         </div>
     )
 }

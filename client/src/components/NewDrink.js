@@ -15,7 +15,9 @@ function NewDrink({selectedDrink}) {
         )
     }
 
-    const ingredient = selectedDrink.ingredients.map(ingredient => {
+    const ingredientsArray = selectedDrink.ingredients.split(', ')
+
+    const ingredient = ingredientsArray.map(ingredient => {
         return (
             <p>| {ingredient} |</p>
         )

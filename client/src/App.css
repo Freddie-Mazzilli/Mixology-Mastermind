@@ -284,4 +284,14 @@ a {
 .add-drink-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 90vw;
+}
+
+.add-drink-container .drink-focus img{
+  max-width: 20vw;
+}
+
+.add-drink-container .drink-focus {
+  width: 90vw;
 }
