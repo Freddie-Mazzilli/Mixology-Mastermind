@@ -20,21 +20,19 @@ function AddIngredient({}) {
             },
             body: JSON.stringify(ingredientFormData),
         })
-        .then(response => {
-            if (response.ok) {
-                return response.json()
-            } else if (response.status === 400) {
-                return response.json().then(data => {
-                    console.error(data.errors[0])
-                })
+        .then(response => response.json())
+        .then(data => {
+            if (data.errors.length > 0) {
+                console.error('Errors:', data.errors)
+            }
+            if (data.success.length > 0) {
+                console.log('Successfully added ingredients:', data.success)
             }
         })
         .catch(error => {
             console.error('Error:', error)
         })
-        console.log('Form Data Submitted:', ingredientFormData)
         setIngredientFormData({"name": ""})
-        console.log('Form Data Cleared:', ingredientFormData)
     }
 
     function handleKeyPress(event) {

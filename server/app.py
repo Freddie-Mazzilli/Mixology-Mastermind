@@ -208,23 +208,33 @@ class Ingredients(Resource):
         try:
             data = request.get_json()
             ingredient_list = data.get('name').split(', ')
-            response_body = []
+            response_body = {'success': [], 'errors': []}
+
             for ingredient in ingredient_list:
                 ingredient_parts = ingredient.split('; ')
-                ingredient_name = ingredient_parts[0]
-                ingredient_type = ingredient_parts[1]
+                if len(ingredient_parts) != 2:
+                    response_body['errors'].append(f'{ingredient} entry is incomplete')
+                    continue
 
-                new_ingredient = Ingredient(
-                    name=ingredient_name,
-                    type=ingredient_type
-                )
-                db.session.add(new_ingredient)
-                db.session.commit()
-                response_body.append(new_ingredient.to_dict())
+                ingredient_name, ingredient_type = ingredient_parts
+
+                try:
+                    new_ingredient = Ingredient(
+                        name=ingredient_name,
+                        type=ingredient_type
+                    )
+                    db.session.add(new_ingredient)
+                    db.session.commit()
+                    response_body['success'].append(new_ingredient.to_dict())
+
+                except ValueError as error:
+                    response_body['errors'].append(f'Ingredient {ingredient_name}: {str(error)}')
+
             return make_response(jsonify(response_body), 200)
-        except ValueError:
-            response_body = {'errors': ['validation errors']}
-            return make_response(jsonify(response_body), 400)
+
+        except Exception as e:
+            response_body = {'errors': ['An error occured while processing your request']}
+            return make_response(jsonify(response_body), 500)
 
 api.add_resource(Ingredients, '/ingredients')
 
