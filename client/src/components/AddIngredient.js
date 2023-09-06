@@ -8,7 +8,7 @@ function AddIngredient({}) {
     
     function updateIngredientFormData(event){
         setIngredientFormData({...ingredientFormData, [event.target.name]: event.target.value})
-        console.log(ingredientFormData)
+        // console.log(ingredientFormData)
     }
     
     function addIngredient(event) {
