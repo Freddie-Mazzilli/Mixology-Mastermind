@@ -29,11 +29,11 @@ function IngredientManager({currentUser, ingredients, userIngredients, setUserIn
     })
 
     const ingredient = filteredIngredients.map(ingredient => {
-        return <p onClick={addMyIngredients} id={ingredient.id} type={ingredient.type}>{ingredient.name}</p>
+        return <p onClick={addMyIngredients} id={ingredient.id} key={ingredient.id}>{ingredient.name}</p>
     })
 
     const userIngredient = filteredUserIngredients.map(userIngredient => {
-        return <p onClick={deleteMyIngredients} id={userIngredient.id}> {userIngredient.ingredient.name}</p>
+        return <p onClick={deleteMyIngredients} id={userIngredient.id} key={userIngredient.id}> {userIngredient.ingredient.name}</p>
     })
 
 
@@ -41,7 +41,7 @@ function IngredientManager({currentUser, ingredients, userIngredients, setUserIn
         <div className="ingredients-grid">
             <div>
                 <select onChange={handleIngredientType}>
-                    <option value="">-- Ingredient Type --</option>
+                    <option value="">All Ingredients</option>
                     <option value="Liquor">Liquor</option>
                     <option value="Mixer">Mixer</option>
                     <option value="Garnish">Garnish</option>
@@ -53,7 +53,7 @@ function IngredientManager({currentUser, ingredients, userIngredients, setUserIn
             </div>
             <div>
                 <select onChange={handleUserIngredientType}>
-                    <option value="">-- Ingredient Type --</option>
+                    <option value="">All Ingredients</option>
                     <option value="Liquor">Liquor</option>
                     <option value="Mixer">Mixer</option>
                     <option value="Garnish">Garnish</option>

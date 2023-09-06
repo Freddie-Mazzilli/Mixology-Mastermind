@@ -301,12 +301,12 @@ function App() {
           <Liquors drinks={drinks} handleFormData={handleFormData}/>
           <BrowseWrapper drinks={liquorDrinks} focusSelector={focusSelector} />
         </Route>
-        <Route exact path='/my_bar'>
+        <Route exact path='/ingredient_search'>
           <Nav logout={logout} />
+          <IngredientManager addMyIngredients={addMyIngredients} deleteMyIngredients={deleteMyIngredients} currentUser={currentUser} ingredients={ingredients} userIngredients={userIngredients} setUserIngredients={setUserIngredients} />
           <div className='bar-manager'>
             <MyBar user={currentUser}  myBarDrinks={myBarDrinks} focusSelector={focusSelector}/>
           </div>
-          <IngredientManager addMyIngredients={addMyIngredients} deleteMyIngredients={deleteMyIngredients} currentUser={currentUser} ingredients={ingredients} userIngredients={userIngredients} setUserIngredients={setUserIngredients} />
         </Route>
         <Route exact path='/my_drinks'>
           <Nav logout={logout} />
