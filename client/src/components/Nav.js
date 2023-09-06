@@ -7,8 +7,8 @@ function Nav({logout}) {
         <div className="nav-bar">
             <NavLink to='/home'>Home</NavLink>
             <NavLink to='/browse'>Browse</NavLink>
-            <NavLink to='/liquors'>Liquors</NavLink>
-            <NavLink to='/my_bar'>Ingredient Search</NavLink>
+            {/* <NavLink to='/liquors'>Liquors</NavLink> */}
+            <NavLink to='/ingredient_search'>Ingredient Search</NavLink>
             <NavLink to='/my_drinks'>My Drinks</NavLink>
             <NavLink onClick={logout} to='/'>Logout</NavLink>
         </div>

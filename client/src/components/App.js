@@ -296,11 +296,11 @@ function App() {
           <Search setSearchText={setSearchText} />
           <BrowseWrapper drinks={filteredDrinks} focusSelector={focusSelector} />
         </Route>
-        <Route exact path='/liquors'>
+        {/* <Route exact path='/liquors'>
           <Nav logout={logout} />
           <Liquors drinks={drinks} handleFormData={handleFormData}/>
           <BrowseWrapper drinks={liquorDrinks} focusSelector={focusSelector} />
-        </Route>
+        </Route> */}
         <Route exact path='/ingredient_search'>
           <Nav logout={logout} />
           <IngredientManager addMyIngredients={addMyIngredients} deleteMyIngredients={deleteMyIngredients} currentUser={currentUser} ingredients={ingredients} userIngredients={userIngredients} setUserIngredients={setUserIngredients} />
