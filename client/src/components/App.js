@@ -304,9 +304,7 @@ function App() {
         <Route exact path='/ingredient_search'>
           <Nav logout={logout} />
           <IngredientManager addMyIngredients={addMyIngredients} deleteMyIngredients={deleteMyIngredients} currentUser={currentUser} ingredients={ingredients} userIngredients={userIngredients} setUserIngredients={setUserIngredients} />
-          <div className='bar-manager'>
-            <MyBar user={currentUser}  myBarDrinks={myBarDrinks} focusSelector={focusSelector}/>
-          </div>
+          <MyBar user={currentUser}  myBarDrinks={myBarDrinks} focusSelector={focusSelector}/>
         </Route>
         <Route exact path='/my_drinks'>
           <Nav logout={logout} />
