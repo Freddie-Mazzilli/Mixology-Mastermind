@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import NewDrink from "./NewDrink";
 
-function AddDrink() {
+function AddDrink({fetchDrinks}) {
 
     const [drinkFormData, setDrinkFormData] = useState({
         "name": "",
@@ -34,6 +34,7 @@ function AddDrink() {
             } else {
             }
         })
+        .then(fetchDrinks())
         .catch(error => {
             console.error('Error:', error)
         })    

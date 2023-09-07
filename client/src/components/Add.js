@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AddDrink from "./AddDrink";
 import AddIngredient from "./AddIngredient";
 
-function Add() {
+function Add({fetchDrinks, fetchIngredients}) {
 
     const [selectedForm, setSelectedForm] = useState('ingredients')
 
@@ -14,7 +14,7 @@ function Add() {
                     <option value='drinks'>Add Drink</option>
                 </select>
             </div>
-            {selectedForm === 'ingredients' ? <AddIngredient /> : <AddDrink />}
+            {selectedForm === 'ingredients' ? <AddIngredient fetchIngredients={fetchIngredients} /> : <AddDrink fetchDrinks={fetchDrinks} />}
         </div>
     )
 }

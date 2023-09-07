@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-function AddIngredient({}) {
+function AddIngredient({fetchIngredients}) {
 
     const [ingredientFormData, setIngredientFormData] = useState({
         "name": ""
@@ -11,29 +11,36 @@ function AddIngredient({}) {
         // console.log(ingredientFormData)
     }
     
-    function addIngredient(event) {
-        event.preventDefault()
-        fetch('/ingredients', {
+    async function addIngredient(event) {
+        event.preventDefault();
+        try {
+          const response = await fetch('/ingredients', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify(ingredientFormData),
-        })
-        .then(response => response.json())
-        .then(data => {
+          });
+      
+          if (response.ok) {
+            const data = await response.json();
             if (data.errors.length > 0) {
-                console.error('Errors:', data.errors)
+              console.error('Errors:', data.errors);
             }
             if (data.success.length > 0) {
-                console.log('Successfully added ingredients:', data.success)
+              console.log('Successfully added ingredients:', data.success);
+              await fetchIngredients();
             }
-        })
-        .catch(error => {
-            console.error('Error:', error)
-        })
-        setIngredientFormData({"name": ""})
+          } else {
+            console.error('HTTP Error:', response.statusText);
+          }
+      
+          setIngredientFormData({ "name": "" });
+        } catch (error) {
+          console.error('Error:', error);
+        }
     }
+      
 
     function handleKeyPress(event) {
         if (event.key === 'Enter') {

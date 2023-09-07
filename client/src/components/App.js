@@ -24,7 +24,6 @@ function App() {
 
   const history = useHistory()
 
-  const [drinks, setDrinks] = useState([])
   const [ingredients, setIngredients] = useState([])
   const [userIngredients, setUserIngredients] = useState([])
   const [userDrinks, setUserDrinks] = useState([])
@@ -33,18 +32,26 @@ function App() {
 
   const [searchText, setSearchText] = useState('')
 
-  
+  const [drinks, setDrinks] = useState([])
 
-  useEffect(() => {
+  function fetchDrinks() {
     fetch('/drinks')
     .then(res => res.json())
     .then(drinksData => setDrinks(drinksData))
-  }, [])
+  }
 
   useEffect(() => {
+    fetchDrinks()
+  }, [])
+
+  function fetchIngredients() {
     fetch('/ingredients')
     .then(res => res.json())
     .then(ingredientsData => setIngredients(ingredientsData))
+  }
+
+  useEffect(() => {
+    fetchIngredients()
   }, [])
 
   useEffect(() => {
@@ -114,7 +121,7 @@ function App() {
 
   useEffect(() => {
     if(currentUser){
-    fetch(`http://127.0.0.1:5555/user_ingredients/${currentUser.id}`)
+    fetch(`/user_ingredients/${currentUser.id}`)
     .then(res => res.json())
     .then(ingredientsData => setUserIngredients(ingredientsData))}
   }, [currentUser])
@@ -316,7 +323,7 @@ function App() {
         </Route>
         <Route exact path='/add'>
           <Nav />
-          <Add />
+          <Add fetchDrinks={fetchDrinks} fetchIngredients={fetchIngredients}/>
         </Route>
       </Switch>
       </div>
