@@ -216,6 +216,11 @@ class Ingredients(Resource):
 
                 ingredient_name, ingredient_type = ingredient_parts
 
+                existing_ingredient = Ingredient.query.filter_by(name=ingredient_name).first()
+                if existing_ingredient:
+                    response_body['errors'].append(f'{ingredient_name} is already in the database')
+                    continue
+
                 try:
                     new_ingredient = Ingredient(
                         name=ingredient_name,
