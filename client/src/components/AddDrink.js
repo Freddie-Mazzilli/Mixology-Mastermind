@@ -15,37 +15,45 @@ function AddDrink({fetchDrinks}) {
         console.log(drinkFormData)
     }
 
-    function addDrink(event) {
-        event.preventDefault()
-        fetch('/drinks', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(drinkFormData),
-        })
-        .then(response => {
+    async function addDrink(event) {
+        event.preventDefault();
+    
+        try {
+            const response = await fetch('/drinks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(drinkFormData),
+            });
+    
             if (response.ok) {
-                return response.json()
+                const data = await response.json();
+                if (data.errors.length > 0) {
+                    console.error('Errors:', data.errors);
+                }
+                if (data.success.length > 0) {
+                    console.log('Successfully added drinks:', data.success);
+                    await fetchDrinks();
+                }
             } else if (response.status === 400) {
-                return response.json().then(data => {
-                    console.error(data.errors[0])
-                })
+                const data = await response.json();
+                console.error(data.errors[0]);
             } else {
+                console.error('HTTP Error:', response.statusText);
             }
-        })
-        .then(fetchDrinks())
-        .catch(error => {
-            console.error('Error:', error)
-        })    
-
-        setDrinkFormData({
-            "name": "",
-            "image": "",
-            "ingredients": "",
-            "instructions": ""
-        })
+    
+            setDrinkFormData({
+                "name": "",
+                "image": "",
+                "ingredients": "",
+                "instructions": ""
+            });
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
+    
 
     function handleKeyPress(event) {
         if (event.key === 'Enter') {

@@ -113,6 +113,15 @@ class Drinks(Resource):
         try:
             data = request.get_json()
 
+            response_body = {'success': [], 'errors': []}
+
+            drink_name = data.get('name')
+
+            existing_drink = Drink.query.filter_by(name=drink_name).first()
+            if existing_drink:
+                response_body['errors'].append(f'{drink_name} is already in the database')
+                return make_response(jsonify(response_body), 400)
+
             ingredient_list = data.get('ingredients').split(', ')
             missing_ingredients = []
             for ingredient_entry in ingredient_list:
@@ -127,7 +136,7 @@ class Drinks(Resource):
                     missing_ingredients.append(ingredient_name)
             if missing_ingredients:
                 error_message = f"Ingredients not in database: {', '.join(missing_ingredients)}"
-                response_body = {'errors': [error_message]}
+                response_body['errors'].append(error_message)
                 return make_response(jsonify(response_body), 400)
 
             if not missing_ingredients:
@@ -158,10 +167,10 @@ class Drinks(Resource):
 
                 db.session.commit()
 
-                response_body = new_drink.to_dict()
+                response_body['success'].append(new_drink.to_dict())
                 return make_response(jsonify(response_body), 200)
         except ValueError:
-            response_body = {'errors': ['validation errors']}
+            response_body['errors'].append('validation errors')
             return make_response(jsonify(response_body), 400)
 
 api.add_resource(Drinks, '/drinks')
