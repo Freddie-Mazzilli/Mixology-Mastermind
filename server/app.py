@@ -268,16 +268,28 @@ api.add_resource(Ingredients, '/ingredients')
 
 class IngredientsById(Resource):
 
+    def get(self, id):
+        ingredient = Ingredient.query.filter(Ingredient.id == id).first()
+        if not ingredient:
+            response_body = {'errors': 'Ingredient not found'}
+            return make_response(jsonify(response_body), 404)
+        response_body = ingredient.to_dict()
+        return make_response(jsonify(response_body), 200)
+
     def patch(self, id):
         ingredient = Ingredient.query.filter(Ingredient.id == id).first()
         if not ingredient:
             return make_response({'error': 'Ingredient not found'}, 404)
-        data=request.get_json()
-        for key in data:
-            setattr(ingredient, key, data.get(key))
-        db.session.commit()
-        response_body = ingredient.to_dict()
-        return make_response(jsonify(response_body), 200)
+        try:
+            data=request.get_json()
+            for key in data:
+                setattr(ingredient, key, data.get(key))
+            db.session.commit()
+            response_body = ingredient.to_dict()
+            return make_response(jsonify(response_body), 200)
+        except ValueError:
+            response_body = {'errors': ['validation errors']}
+            return make_response(jsonify(response_body), 400)
 
     def delete(self, id):
         ingredient = Ingredient.query.filter(Ingredient.id == id).first()
