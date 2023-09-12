@@ -307,7 +307,17 @@ class DrinkIngredients(Resource):
         drink_ingredients = DrinkIngredient.query.all()
         response_body = []
         for drink_ingredient in drink_ingredients:
-            response_body.append(drink_ingredient.to_dict())
+            ingredient = Ingredient.query.filter(Ingredient.id == drink_ingredient.ingredient_id).first()
+            drink = Drink.query.filter(Drink.id == drink_ingredient.drink_id).first()
+            drink_ingredient_dict = {
+                "id": drink_ingredient.id,
+                "drink": drink.name,
+                "ingredient": ingredient.name,
+                "quantity": drink_ingredient.quantity,
+                "drink_id": drink_ingredient.drink_id,
+                "ingredient_id": drink_ingredient.ingredient_id
+            }
+            response_body.append(drink_ingredient_dict)
         return make_response(jsonify(response_body), 200)
 
     def post(self):
