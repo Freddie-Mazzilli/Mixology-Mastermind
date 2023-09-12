@@ -323,12 +323,24 @@ class DrinkIngredientsById(Resource):
         drink_ingredient = DrinkIngredient.query.filter(DrinkIngredient.id == id).first()
         if not drink_ingredient:
             return make_response({'error': 'Drink ingredient not found'}, 404)
-        data=request.get_json()
-        for key in data:
-            setattr(drink_ingredient, key, data.get(key))
+        try:
+            data=request.get_json()
+            for key in data:
+                setattr(drink_ingredient, key, data.get(key))
+            db.session.commit()
+            response_body = drink_ingredient.to_dict()
+            return make_response(jsonify(response_body), 200)
+        except ValueError:
+            response_body = {'errors': ['validation errors']}
+            return make_response(jsonify(response_body), 400)
+
+    def delete(self, id):
+        drink_ingredient = DrinkIngredient.query.filter(DrinkIngredient.id == id).first()
+        db.session.delete(drink_ingredient)
         db.session.commit()
-        response_body = drink_ingredient.to_dict()
-        return make_response(jsonify(response_body), 200)
+        response_body = {}
+        return make_response(jsonify(response_body), 204)
+            
 
 api.add_resource(DrinkIngredientsById, '/drink_ingredients/<int:id>')
 
