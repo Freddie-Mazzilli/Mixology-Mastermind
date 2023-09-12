@@ -192,6 +192,21 @@ class DrinksById(Resource):
         })
         return make_response(jsonify(response_body), 200)
 
+    def patch(self, id):
+        drink = Drink.query.filter(Drink.id == id).first()
+        if not drink:
+            response_body = {'error': 'Drink not found'}
+            return make_response(jsonify(response_body), 404)
+        try:
+            data = request.get_json()
+            for key in data:
+                setattr(drink, key, data.get(key))
+            db.session.commit()
+            return make_response(jsonify(drink.to_dict()), 202)
+        except ValueError:
+            response_body = {'errors': ['Validation Errors']}
+            return make_response(jsonify(response_body), 500)
+
     def delete(self, id):
         drink = Drink.query.filter(Drink.id == id).first()
         db.session.delete(drink)
