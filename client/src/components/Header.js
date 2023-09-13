@@ -4,7 +4,7 @@ function Header() {
 
     return(
         <div className="header-container">
-            <h1>Home Bar Manager</h1>
+            <h1>Mixology Mastermind</h1>
         </div>
     )
 }
