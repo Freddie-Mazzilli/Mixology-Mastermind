@@ -17,6 +17,8 @@ import MyDrinksWrapper from './MyDrinksWrapper'
 import Header from './Header'
 import Footer from './Footer';
 import Add from './Add';
+import ModifyPage from './ModifyPage';
+import CmsNav from './CmsNav';
 
 function App() {
 
@@ -321,9 +323,11 @@ function App() {
           <Nav logout={logout} />
           <Focus addMyDrinks={addMyDrinks} focusDrink={focusDrink} />
         </Route>
-        <Route exact path='/add'>
+        <Route path='/modify'>
           <Nav />
-          <Add fetchDrinks={fetchDrinks} fetchIngredients={fetchIngredients}/>
+          <CmsNav />
+          <ModifyPage fetchDrinks={fetchDrinks} fetchIngredients={fetchIngredients}/>
+          {/* <Add /> */}
         </Route>
       </Switch>
       </div>
