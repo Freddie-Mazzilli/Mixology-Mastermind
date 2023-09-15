@@ -60,7 +60,7 @@ function ChangeIngredient({ingredients, fetchIngredients}) {
 
     return(
         <div className="form-flex">
-            <select onChange={handleSelectedIngredient}>
+            <select value={selectedIngredient.id} onChange={handleSelectedIngredient}>
                 <option value="" disabled hidden>Select Ingredient</option>
                 {ingredientOptions}
             </select>
