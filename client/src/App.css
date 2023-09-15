@@ -275,6 +275,11 @@ a {
   word-wrap: break-word;
 }
 
+.ingredient-mod-input {
+  margin-top: 6%;
+  padding: 1%;
+}
+
 .content {
   display: flex;
   flex-direction: column;
