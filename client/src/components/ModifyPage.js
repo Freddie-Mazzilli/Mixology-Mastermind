@@ -3,7 +3,7 @@ import React from "react";
 import Add from "./Add";
 import Change from "./Change";
 
-function ModifyPage({fetchDrinks, fetchIngredients, ingredients}) {
+function ModifyPage({drinks, fetchDrinks, fetchIngredients, ingredients}) {
 
     const match = useRouteMatch()
 
@@ -17,7 +17,7 @@ function ModifyPage({fetchDrinks, fetchIngredients, ingredients}) {
                     <Add fetchDrinks={fetchDrinks} fetchIngredients={fetchIngredients}/>
                 </Route>
                 <Route exact path={`${match.url}/change`}>
-                    <Change ingredients={ingredients} fetchIngredients={fetchIngredients} />
+                    <Change ingredients={ingredients} fetchIngredients={fetchIngredients} drinks={drinks} fetchDrinks={fetchDrinks}/>
                     <h2>Change Data</h2>
                 </Route>
             </Switch>

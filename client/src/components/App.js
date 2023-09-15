@@ -325,7 +325,7 @@ function App() {
         <Route path='/modify'>
           <Nav />
           <CmsNav />
-          <ModifyPage ingredients={ingredients} fetchDrinks={fetchDrinks} fetchIngredients={fetchIngredients}/>
+          <ModifyPage drinks={drinks} ingredients={ingredients} fetchDrinks={fetchDrinks} fetchIngredients={fetchIngredients}/>
         </Route>
       </Switch>
       </div>

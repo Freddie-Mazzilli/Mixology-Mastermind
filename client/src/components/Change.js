@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ChangeDrink from "./ChangeDrink";
 import ChangeIngredient from "./ChangeIngredient";
 
-function Change({fetchDrinks, fetchIngredients, ingredients}) {
+function Change({drinks, fetchDrinks, fetchIngredients, ingredients}) {
 
     const [selectedForm, setSelectedForm] = useState('ingredients')
 
@@ -14,7 +14,7 @@ function Change({fetchDrinks, fetchIngredients, ingredients}) {
                     <option value='drinks'>Edit Drink</option>
                 </select>
             </div>
-            {selectedForm === 'ingredients' ? <ChangeIngredient ingredients={ingredients} fetchIngredients={fetchIngredients} /> : <ChangeDrink />}
+            {selectedForm === 'ingredients' ? <ChangeIngredient ingredients={ingredients} fetchIngredients={fetchIngredients} /> : <ChangeDrink drinks={drinks} fetchDrinks={fetchDrinks}/>}
         </div>
     )
 }

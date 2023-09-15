@@ -18,6 +18,14 @@ function NewDrink({selectedDrink}) {
     const ingredientsArray = selectedDrink.ingredients.split(', ')
 
     const ingredient = ingredientsArray.map(ingredient => {
+        console.log(ingredient)
+        if (ingredient.includes(';')){
+            const [ingredientQuantity, ingredientName] = ingredient.split('; ')
+            console.log(ingredientName)
+            return (
+                <p>| {ingredientQuantity} of {ingredientName} |</p>
+            )
+        }
         return (
             <p>| {ingredient} |</p>
         )
