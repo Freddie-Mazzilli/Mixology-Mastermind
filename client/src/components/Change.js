@@ -14,7 +14,7 @@ function Change({fetchDrinks, fetchIngredients, ingredients}) {
                     <option value='drinks'>Edit Drink</option>
                 </select>
             </div>
-            {selectedForm === 'ingredients' ? <ChangeIngredient ingredients={ingredients} /> : <ChangeDrink />}
+            {selectedForm === 'ingredients' ? <ChangeIngredient ingredients={ingredients} fetchIngredients={fetchIngredients} /> : <ChangeDrink />}
         </div>
     )
 }

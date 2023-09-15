@@ -17,7 +17,7 @@ function ModifyPage({fetchDrinks, fetchIngredients, ingredients}) {
                     <Add fetchDrinks={fetchDrinks} fetchIngredients={fetchIngredients}/>
                 </Route>
                 <Route exact path={`${match.url}/change`}>
-                    <Change ingredients={ingredients} />
+                    <Change ingredients={ingredients} fetchIngredients={fetchIngredients} />
                     <h2>Change Data</h2>
                 </Route>
             </Switch>
