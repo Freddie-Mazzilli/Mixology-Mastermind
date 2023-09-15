@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function ChangeDrink({drinks, fetchDrinks}) {
 
@@ -10,10 +10,23 @@ function ChangeDrink({drinks, fetchDrinks}) {
         "ingredients": []
     })
 
+    const [drinkOptions, setDrinkOptions] = useState([])
+
+    useEffect(() => {
+        const updatedDrinkOptions = drinks.map((drink) => {
+            return <option key={drink.id} value={drink.id} data-name={drink.name} data-image={drink.image} data-instructions={drink.instructions} data-ingredients={drink.ingredients}>{drink.name}</option>
+        })
+        setDrinkOptions(updatedDrinkOptions)
+    }, [drinks])
+
     return(
         <div className="modify-drink-container">
             <div className="add-drink-container">
                 <div className="form-flex">
+                    <select value={selectedDrink.id}>
+                        <option value="" disabled hidden>Select Drink</option>
+                        {drinkOptions}
+                    </select>
                     <h2>Selected Drink</h2>
                     <form className="form-flex">
                         <div className="form-flex2">
