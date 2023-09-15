@@ -19,11 +19,25 @@ function ChangeDrink({drinks, fetchDrinks}) {
         setDrinkOptions(updatedDrinkOptions)
     }, [drinks])
 
+    function handleSelectedDrink(event) {
+        const selectedOption = event.target.options[event.target.selectedIndex]
+        const ingredientsString = selectedOption.getAttribute('data-ingredients')
+        const ingredientsList = ingredientsString.split(',')
+        setSelectedDrink({
+            "id": event.target.value,
+            "name": selectedOption.getAttribute('data-name'),
+            "image": selectedOption.getAttribute('data-image'),
+            "instructions": selectedOption.getAttribute('data-instructions'),
+            "ingredients": ingredientsList
+        })
+        console.log(selectedDrink)
+    }
+
     return(
         <div className="modify-drink-container">
             <div className="add-drink-container">
                 <div className="form-flex">
-                    <select value={selectedDrink.id}>
+                    <select value={selectedDrink.id} onChange={handleSelectedDrink}>
                         <option value="" disabled hidden>Select Drink</option>
                         {drinkOptions}
                     </select>
