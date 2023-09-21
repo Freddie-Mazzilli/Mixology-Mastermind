@@ -284,6 +284,15 @@ a {
   margin-top: 6%;
 }
 
+.change-drink-ingredients {
+  display: flex;
+  flex-direction: row;
+}
+
+.change-drink-ingredients p {
+  margin-top: 5px
+}
+
 .content {
   display: flex;
   flex-direction: column;
