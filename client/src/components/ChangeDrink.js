@@ -12,6 +12,8 @@ function ChangeDrink({drinks, fetchDrinks}) {
 
     const [drinkOptions, setDrinkOptions] = useState([])
 
+    const [drinkIngredients, setDrinkIngredients] = useState(null)
+
     useEffect(() => {
         const updatedDrinkOptions = drinks.map((drink) => {
             return <option key={drink.id} value={drink.id} data-name={drink.name} data-image={drink.image} data-instructions={drink.instructions} data-ingredients={drink.ingredients}>{drink.name}</option>
@@ -30,11 +32,32 @@ function ChangeDrink({drinks, fetchDrinks}) {
             "instructions": selectedOption.getAttribute('data-instructions'),
             "ingredients": ingredientsList
         })
-        console.log(selectedDrink)
+        let ingredientsObject = {}
+        selectedDrink.ingredients.forEach((ingredient) => {
+            let drinkIngredientName = ""
+            let drinkIngredientQuantity = ""
+            let ingredientEntry = ""
+            if (ingredient.includes('of')) {
+                drinkIngredientName = ingredient.split(' of ')[1]
+                drinkIngredientQuantity = ingredient.split(' of ')[0]
+                ingredientEntry = `${drinkIngredientQuantity}; ${drinkIngredientName}`
+                ingredientsObject[drinkIngredientName] = ingredientEntry
+            } else {
+                ingredientEntry = ingredient
+                ingredientsObject[ingredientEntry] = ingredientEntry
+            }
+        })
+        // console.log(selectedDrink)
+        // console.log(ingredientsObject)
+        setDrinkIngredients(ingredientsObject)
     }
 
-    const selectedDrinkIngredients = selectedDrink.ingredients.map((drinkIngredient) => {
-        console.log(drinkIngredient)
+    useEffect(() => {
+        console.log(drinkIngredients);
+    }, [drinkIngredients]);
+      
+
+    const selectedDrinkIngredients = selectedDrink.ingredients.map((drinkIngredient, index) => {
         let drinkIngredientName = ""
         let drinkIngredientQuantity = ""
         if (drinkIngredient.includes('of')) {
@@ -45,10 +68,24 @@ function ChangeDrink({drinks, fetchDrinks}) {
         }
         
         return (
-        <div className="change-drink-ingredients">
-            <input className="drink-form" type="text" name="name" placeholder="Quantity" value={drinkIngredientQuantity}></input><p>;</p> <input className="drink-form" type="text" name="name" placeholder="Ingredient Name" value={drinkIngredientName} required></input>
+        <div className="change-drink-ingredients" key={index}>
+            <input className="full-width-input" type="text" name="name" placeholder="Quantity" value={drinkIngredient}></input>
+            {/* <p>;</p>  */}
+            {/* <input className="drink-form" type="text" name="name" placeholder="Ingredient Name" value={drinkIngredientName} required></input> */}
+            <button className="delete-ingredient" type="button" onClick={() => handleDeleteIngredient(index)}></button>
         </div>
     )})
+
+    function handleDeleteIngredient(index) {
+        const updatedIngredients = [...selectedDrink.ingredients]
+        updatedIngredients.splice(index, 1)
+        setSelectedDrink({...selectedDrink, ingredients: updatedIngredients})
+        const updatedDrinkIngredients = {...drinkIngredients}
+        const ingredientName = selectedDrink.ingredients[index]
+        delete updatedDrinkIngredients[ingredientName]
+        setDrinkIngredients(updatedDrinkIngredients)
+        console.log(drinkIngredients)
+    }
 
     const newIngredient = 
         <div className="change-drink-ingredients">

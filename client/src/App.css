@@ -248,7 +248,7 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 50vw;
+  width: 70vw;
 }
 
 .form-flex2 {
@@ -256,6 +256,7 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 90%;
 }
 
 .form-flex2 p {
@@ -263,7 +264,6 @@ a {
 }
 
 .form-flex2 input{
-  width: 70%;
   margin: 1vh;
 }
 
@@ -273,6 +273,10 @@ a {
   height: 10vh;
   white-space: normal;
   word-wrap: break-word;
+}
+
+.full-width-input {
+  width: 100%;
 }
 
 .ingredient-mod-input {
@@ -287,10 +291,7 @@ a {
 .change-drink-ingredients {
   display: flex;
   flex-direction: row;
-}
-
-.change-drink-ingredients p {
-  margin-top: 5px
+  width: 100%;
 }
 
 .content {
