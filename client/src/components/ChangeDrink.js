@@ -74,14 +74,10 @@ function ChangeDrink({drinks, fetchDrinks}) {
     }
 
     function handleDeleteIngredient(index) {
-        const updatedIngredients = [...selectedDrink.ingredients]
+        let updatedIngredients = [...drinkIngredients]
         updatedIngredients.splice(index, 1)
         setSelectedDrink({...selectedDrink, ingredients: updatedIngredients})
-        const updatedDrinkIngredients = {...drinkIngredients}
-        const ingredientName = selectedDrink.ingredients[index]
-        delete updatedDrinkIngredients[ingredientName]
-        setDrinkIngredients(updatedDrinkIngredients)
-        console.log(drinkIngredients)
+        setDrinkIngredients(updatedIngredients)
     }
 
     const newIngredient = 
