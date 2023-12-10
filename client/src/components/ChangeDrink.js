@@ -12,7 +12,7 @@ function ChangeDrink({drinks, fetchDrinks}) {
 
     const [drinkOptions, setDrinkOptions] = useState([])
 
-    const [drinkIngredients, setDrinkIngredients] = useState(null)
+    const [drinkIngredients, setDrinkIngredients] = useState([])
 
     // const [newIngredients, setNewIngredients] = useState([])
 
@@ -51,12 +51,10 @@ function ChangeDrink({drinks, fetchDrinks}) {
         })
         // console.log(selectedDrink)
         // console.log(ingredientsObject)
-        setDrinkIngredients(selectedDrink.ingredients)
+        setDrinkIngredients(ingredientsList)
     }
 
-    useEffect(() => {
-        console.log(drinkIngredients);
-    }, [drinkIngredients]);
+
 
     function updateFormFields(event) {
     const index = event.target.getAttribute("index")
@@ -67,27 +65,30 @@ function ChangeDrink({drinks, fetchDrinks}) {
         console.log(newDrinkIngredients)
       }
       
-      
+    let selectedDrinkIngredients = []
 
-    const selectedDrinkIngredients = drinkIngredients.map((drinkIngredient, index) => {
-        // console.log(index)
-        let drinkIngredientName = ""
-        let drinkIngredientQuantity = ""
-        if (drinkIngredient.includes('of')) {
-            drinkIngredientName = drinkIngredient.split(' of ')[1]
-            drinkIngredientQuantity = drinkIngredient.split(' of ')[0]
-        } else {
-            drinkIngredientName = drinkIngredient
-        }
-        
-        return (
-        <div className="change-drink-ingredients" key={index}>
-            <input index={index} className="full-width-input" type="text" name="name" placeholder="Ingredient" value={drinkIngredient}  onChange={updateFormFields}></input>
-            {/* <p>;</p>  */}
-            {/* <input className="drink-form" type="text" name="name" placeholder="Ingredient Name" value={drinkIngredientName} required></input> */}
-            <button className="delete-ingredient" type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button>
-        </div>
-    )})
+
+    if(selectedDrink){
+        selectedDrinkIngredients = drinkIngredients.map((drinkIngredient, index) => {
+            // console.log(index)
+            let drinkIngredientName = ""
+            let drinkIngredientQuantity = ""
+            if (drinkIngredient.includes('of')) {
+                drinkIngredientName = drinkIngredient.split(' of ')[1]
+                drinkIngredientQuantity = drinkIngredient.split(' of ')[0]
+            } else {
+                drinkIngredientName = drinkIngredient
+            }
+            
+            return (
+            <div className="change-drink-ingredients" key={index}>
+                <input index={index} className="full-width-input" type="text" name="name" placeholder="Ingredient" value={drinkIngredient}  onChange={updateFormFields}></input>
+                {/* <p>;</p>  */}
+                {/* <input className="drink-form" type="text" name="name" placeholder="Ingredient Name" value={drinkIngredientName} required></input> */}
+                <button className="delete-ingredient" type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button>
+            </div>
+        )})
+    }
 
     function handleDeleteIngredient(index) {
         const updatedIngredients = [...selectedDrink.ingredients]
