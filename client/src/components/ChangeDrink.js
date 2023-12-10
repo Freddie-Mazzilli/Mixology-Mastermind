@@ -14,6 +14,8 @@ function ChangeDrink({drinks, fetchDrinks}) {
 
     const [drinkIngredients, setDrinkIngredients] = useState(null)
 
+    // const [newIngredients, setNewIngredients] = useState([])
+
     useEffect(() => {
         const updatedDrinkOptions = drinks.map((drink) => {
             return <option key={drink.id} value={drink.id} data-name={drink.name} data-image={drink.image} data-instructions={drink.instructions} data-ingredients={drink.ingredients}>{drink.name}</option>
@@ -49,15 +51,26 @@ function ChangeDrink({drinks, fetchDrinks}) {
         })
         // console.log(selectedDrink)
         // console.log(ingredientsObject)
-        setDrinkIngredients(ingredientsObject)
+        setDrinkIngredients(selectedDrink.ingredients)
     }
 
     useEffect(() => {
         console.log(drinkIngredients);
     }, [drinkIngredients]);
+
+    function updateFormFields(event) {
+    const index = event.target.getAttribute("index")
+        console.log(index)
+        let newDrinkIngredients = [...drinkIngredients]
+        newDrinkIngredients[index] = event.target.value
+        setDrinkIngredients(newDrinkIngredients);
+        console.log(newDrinkIngredients)
+      }
+      
       
 
-    const selectedDrinkIngredients = selectedDrink.ingredients.map((drinkIngredient, index) => {
+    const selectedDrinkIngredients = drinkIngredients.map((drinkIngredient, index) => {
+        // console.log(index)
         let drinkIngredientName = ""
         let drinkIngredientQuantity = ""
         if (drinkIngredient.includes('of')) {
@@ -69,10 +82,10 @@ function ChangeDrink({drinks, fetchDrinks}) {
         
         return (
         <div className="change-drink-ingredients" key={index}>
-            <input className="full-width-input" type="text" name="name" placeholder="Quantity" value={drinkIngredient}></input>
+            <input index={index} className="full-width-input" type="text" name="name" placeholder="Quantity" value={drinkIngredient}  onChange={updateFormFields}></input>
             {/* <p>;</p>  */}
             {/* <input className="drink-form" type="text" name="name" placeholder="Ingredient Name" value={drinkIngredientName} required></input> */}
-            <button className="delete-ingredient" type="button" onClick={() => handleDeleteIngredient(index)}></button>
+            <button className="delete-ingredient" type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button>
         </div>
     )})
 
@@ -89,8 +102,14 @@ function ChangeDrink({drinks, fetchDrinks}) {
 
     const newIngredient = 
         <div className="change-drink-ingredients">
-            <input className="drink-form" type="text" name="name" placeholder="Quantity"></input><p>;</p> <input className="drink-form" type="text" name="name" placeholder="Ingredient Name" required></input>
+            <input className="drink-form" type="text" name="name" placeholder="Ingredient" required></input>
         </div>
+
+function handleAddNewIngredient() {
+    const updatedIngredients = [...selectedDrink.ingredients, '"Please input new Ingredient"'];
+    setSelectedDrink({ ...selectedDrink, ingredients: updatedIngredients });
+  }
+  
 
     return(
         <div className="modify-drink-container">
@@ -109,6 +128,7 @@ function ChangeDrink({drinks, fetchDrinks}) {
                             {selectedDrinkIngredients}
                         </div>
                         <div className="form-flex2">
+                            <button className="add-ingredient" type="button" onClick={handleAddNewIngredient}>Add New Ingredient</button>
                             <button className="form" type="submit">Add Drink</button>
                         </div>
                     </form>

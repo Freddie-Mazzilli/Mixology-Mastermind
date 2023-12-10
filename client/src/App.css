@@ -122,6 +122,11 @@ img {
   border: none;
 }
 
+.delete-ingredient {
+  height: 70%;
+  margin-top: 2.5%;
+}
+
 .landing-div {
   width: 100%;
   height: 100vh;
@@ -292,6 +297,10 @@ a {
   display: flex;
   flex-direction: row;
   width: 100%;
+}
+
+.add-ingredient {
+  margin: 4%;
 }
 
 .content {
