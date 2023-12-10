@@ -89,11 +89,18 @@ function ChangeDrink({drinks, fetchDrinks}) {
             <input className="drink-form" type="text" name="name" placeholder="Ingredient" required></input>
         </div>
 
-function handleAddNewIngredient() {
-    const updatedIngredients = [...drinkIngredients, '"Please input new Ingredient"'];
-    setDrinkIngredients(updatedIngredients);
-  }
-  
+    function handleAddNewIngredient() {
+        const updatedIngredients = [...drinkIngredients, '"Please input new Ingredient"'];
+        setDrinkIngredients(updatedIngredients);
+    }
+
+    function handleDrinkAttributes(event) {
+        let currentDrink = {...selectedDrink}
+        let attribute = event.target.getAttribute("name")
+        currentDrink[attribute] = event.target.value
+        setSelectedDrink(currentDrink)
+        console.log(selectedDrink)
+    }
 
     return(
         <div className="modify-drink-container">
@@ -106,9 +113,9 @@ function handleAddNewIngredient() {
                     <h2>Selected Drink</h2>
                     <form className="form-flex">
                         <div className="form-flex2">
-                            <input className="drink-form" type="text" name="name" value={selectedDrink.name} placeholder="Drink Name" required/>
-                            <textarea className="drink-form-ingredients" type="text" name="image" value={selectedDrink.image} placeholder="Image URL" required/>
-                            <textarea className="drink-form-ingredients" type="text" name="instructions" value={selectedDrink.instructions} placeholder="Instructions" required/>
+                            <input className="drink-form" type="text" name="name" value={selectedDrink.name} placeholder="Drink Name" onChange={handleDrinkAttributes} required/>
+                            <textarea className="drink-form-ingredients" type="text" name="image" value={selectedDrink.image} placeholder="Image URL" onChange={handleDrinkAttributes} required/>
+                            <textarea className="drink-form-ingredients" type="text" name="instructions" value={selectedDrink.instructions} placeholder="Instructions" onChange={handleDrinkAttributes} required/>
                             {selectedDrinkIngredients}
                         </div>
                         <div className="form-flex2">
