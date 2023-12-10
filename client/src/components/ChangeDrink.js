@@ -34,23 +34,6 @@ function ChangeDrink({drinks, fetchDrinks}) {
             "instructions": selectedOption.getAttribute('data-instructions'),
             "ingredients": ingredientsList
         })
-        let ingredientsObject = {}
-        selectedDrink.ingredients.forEach((ingredient) => {
-            let drinkIngredientName = ""
-            let drinkIngredientQuantity = ""
-            let ingredientEntry = ""
-            if (ingredient.includes('of')) {
-                drinkIngredientName = ingredient.split(' of ')[1]
-                drinkIngredientQuantity = ingredient.split(' of ')[0]
-                ingredientEntry = `${drinkIngredientQuantity}; ${drinkIngredientName}`
-                ingredientsObject[drinkIngredientName] = ingredientEntry
-            } else {
-                ingredientEntry = ingredient
-                ingredientsObject[ingredientEntry] = ingredientEntry
-            }
-        })
-        // console.log(selectedDrink)
-        // console.log(ingredientsObject)
         setDrinkIngredients(ingredientsList)
     }
 
