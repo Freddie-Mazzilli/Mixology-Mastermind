@@ -82,7 +82,7 @@ function ChangeDrink({drinks, fetchDrinks}) {
         
         return (
         <div className="change-drink-ingredients" key={index}>
-            <input index={index} className="full-width-input" type="text" name="name" placeholder="Quantity" value={drinkIngredient}  onChange={updateFormFields}></input>
+            <input index={index} className="full-width-input" type="text" name="name" placeholder="Ingredient" value={drinkIngredient}  onChange={updateFormFields}></input>
             {/* <p>;</p>  */}
             {/* <input className="drink-form" type="text" name="name" placeholder="Ingredient Name" value={drinkIngredientName} required></input> */}
             <button className="delete-ingredient" type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button>
@@ -106,8 +106,8 @@ function ChangeDrink({drinks, fetchDrinks}) {
         </div>
 
 function handleAddNewIngredient() {
-    const updatedIngredients = [...selectedDrink.ingredients, '"Please input new Ingredient"'];
-    setSelectedDrink({ ...selectedDrink, ingredients: updatedIngredients });
+    const updatedIngredients = [...drinkIngredients, '"Please input new Ingredient"'];
+    setDrinkIngredients(updatedIngredients);
   }
   
 
