@@ -6,7 +6,7 @@ function AddDrink({fetchDrinks}) {
     const [drinkFormData, setDrinkFormData] = useState({
         "name": "",
         "image": "",
-        "ingredients": "",
+        "ingredients": [],
         "instructions": ""
     })
     
@@ -46,7 +46,7 @@ function AddDrink({fetchDrinks}) {
             setDrinkFormData({
                 "name": "",
                 "image": "",
-                "ingredients": "",
+                "ingredients": [],
                 "instructions": ""
             });
         } catch (error) {
@@ -59,6 +59,11 @@ function AddDrink({fetchDrinks}) {
         if (event.key === 'Enter') {
             addDrink(event)
         }
+    }
+    
+
+    function handleAddNewIngredient(event) {
+        return
     }
       
 
@@ -76,6 +81,7 @@ function AddDrink({fetchDrinks}) {
                         <textarea className="drink-form-ingredients" onChange={updateDrinkFormData} type="text" name="ingredients" value={drinkFormData.ingredients} placeholder="Ingredients" required/>
                     </div>
                     <div className="form-flex2">
+                        <button className="add-ingredient" type="button" onClick={handleAddNewIngredient}>Add New Ingredient</button>
                         <button className="form" type="submit">Add Drink</button>
                     </div>
                 </form>

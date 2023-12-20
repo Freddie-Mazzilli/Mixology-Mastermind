@@ -15,10 +15,11 @@ function NewDrink({selectedDrink}) {
         )
     }
 
-    const ingredientsArray = selectedDrink.ingredients.split(', ')
+    const ingredientsArray = Array.isArray(selectedDrink.ingredients) ? selectedDrink.ingredients : selectedDrink.ingredients.split(", ")
+    console.log(ingredientsArray)
 
     const ingredient = ingredientsArray.map(ingredient => {
-        console.log(ingredient)
+        // console.log(ingredient)
         if (ingredient.includes(';')){
             const [ingredientQuantity, ingredientName] = ingredient.split('; ')
             console.log(ingredientName)

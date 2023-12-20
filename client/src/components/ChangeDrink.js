@@ -35,6 +35,7 @@ function ChangeDrink({drinks, fetchDrinks}) {
             "ingredients": ingredientsList
         })
         setDrinkIngredients(ingredientsList)
+        console.log(selectedDrink)
     }
 
 
@@ -98,6 +99,74 @@ function ChangeDrink({drinks, fetchDrinks}) {
         console.log(selectedDrink)
     }
 
+    async function handleSubmit(event) {
+        event.preventDefault()
+    
+        try {
+            await fetch(`/drinks/${selectedDrink.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            console.log("Drink and related ingredients deleted successfully")
+        } catch (error) {
+            console.error("Error deleting drink and related ingredients", error)
+            return
+        }
+    
+        try {
+            const transformedIngredients = drinkIngredients.map((ingredient) =>
+                ingredient.replace(/ of/, ';')
+            )
+            const formattedIngredientsString = transformedIngredients.join(', ')
+    
+            const updatedData = {
+                id: selectedDrink.id,
+                name: selectedDrink.name,
+                image: selectedDrink.image,
+                instructions: selectedDrink.instructions,
+                ingredients: formattedIngredientsString,
+            }
+    
+            await fetch("/drinks", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(updatedData),
+            })
+    
+            console.log("New drink added successfully")
+            fetchDrinks()
+        } catch (error) {
+            console.error("Error adding new drink", error)
+        }
+    }
+
+    async function handleDelete() {
+        if (!selectedDrink.id) {
+            console.error("Cannot delete. No drink selected.")
+            return
+        }
+    
+        try {
+            await fetch(`/drinks/${selectedDrink.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+    
+            console.log("Drink deleted successfully")
+            fetchDrinks()
+        } catch (error) {
+            console.error("Error deleting drink", error)
+        }
+    }
+    
+    
+
     return(
         <div className="modify-drink-container">
             <div className="add-drink-container">
@@ -116,7 +185,8 @@ function ChangeDrink({drinks, fetchDrinks}) {
                         </div>
                         <div className="form-flex2">
                             <button className="add-ingredient" type="button" onClick={handleAddNewIngredient}>Add New Ingredient</button>
-                            <button className="form" type="submit">Add Drink</button>
+                            <button className="form" type="submit" onClick={handleSubmit} >Submit Changes</button>
+                            <button className="form" type="button" onClick={handleDelete} >DELETE This Drink</button>
                         </div>
                     </form>
                 </div>

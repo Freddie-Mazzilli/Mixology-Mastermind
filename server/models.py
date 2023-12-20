@@ -97,8 +97,8 @@ class DrinkIngredient(db.Model, SerializerMixin):
     ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'))
 
     # Relationships
-    drink = db.relationship('Drink', back_populates='drink_ingredients', cascade='all')
-    ingredient = db.relationship('Ingredient', back_populates='drink_ingredients', cascade='all')
+    drink = db.relationship('Drink', back_populates='drink_ingredients')
+    ingredient = db.relationship('Ingredient', back_populates='drink_ingredients')
 
     # Serializer
     serialize_rules = ('-ingredient', '-drink')
