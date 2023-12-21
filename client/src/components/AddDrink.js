@@ -17,6 +17,29 @@ function AddDrink({fetchDrinks}) {
 
     async function addDrink(event) {
         event.preventDefault();
+
+        let drinkData = {...drinkFormData}
+
+        console.log(drinkData)
+
+        const ingredientString = drinkData.ingredients.map((ingredient) => {
+            return ingredient.replace(/ of/, ';')
+        })
+
+        console.log(ingredientString)
+
+        const formattedIngredientsString = ingredientString.join(', ')
+
+        console.log(formattedIngredientsString)
+
+        const updatedData = {
+            "name": drinkData.name,
+            "image": drinkData.image,
+            "ingredients": formattedIngredientsString,
+            "instructions": drinkData.instructions
+        }
+
+        console.log(updatedData)
     
         try {
             const response = await fetch('/drinks', {
@@ -24,7 +47,7 @@ function AddDrink({fetchDrinks}) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(drinkFormData),
+                body: JSON.stringify(updatedData),
             });
     
             if (response.ok) {
@@ -63,7 +86,36 @@ function AddDrink({fetchDrinks}) {
     
 
     function handleAddNewIngredient(event) {
-        return
+        setDrinkFormData({ ...drinkFormData, ingredients: [...drinkFormData.ingredients, "Please add new ingredient"] })
+        console.log(drinkFormData)
+    }
+
+    const ingredient = drinkFormData.ingredients.map((ingredient, index) => {
+        return (
+            <div className="change-drink-ingredients" key={index}>
+                <input index={index} className="full-width-input" type="text" name="name" placeholder="Ingredient" value={ingredient} onChange={updateFormFields}></input>
+                <button className="delete-ingredient" type="button" onClick={() => handleDeleteIngredient(index)}>Delete</button>
+            </div>
+    )})
+
+    function updateFormFields(event) {
+        const index = event.target.getAttribute("index")
+        console.log(index)
+        let updatedIngredients = [...drinkFormData.ingredients]
+        updatedIngredients[index] = event.target.value
+        let updatedDrink = {...drinkFormData}
+        updatedDrink.ingredients = updatedIngredients
+        setDrinkFormData(updatedDrink)
+        console.log(drinkFormData)
+    }
+
+    function handleDeleteIngredient(index) {
+        let updatedIngredients = [...drinkFormData.ingredients]
+        updatedIngredients.splice(index, 1)
+        let updatedDrink = {...drinkFormData}
+        updatedDrink.ingredients = updatedIngredients
+        setDrinkFormData(updatedDrink)
+        console.log(drinkFormData)
     }
       
 
@@ -78,7 +130,8 @@ function AddDrink({fetchDrinks}) {
                         <textarea className="drink-form-ingredients" onChange={updateDrinkFormData} type="text" name="instructions" value={drinkFormData.instructions} placeholder="Instructions" required/>
                         <p>Follow this format and input all ingredients in the same line:</p>
                         <p>"Quantity"; "Ingredient Name", "Quantity"; "Ingredient Name"...</p>
-                        <textarea className="drink-form-ingredients" onChange={updateDrinkFormData} type="text" name="ingredients" value={drinkFormData.ingredients} placeholder="Ingredients" required/>
+                        {ingredient}
+                        {/* <input className="drink-form-ingredients" onChange={updateDrinkFormData} type="text" name="ingredients" value={drinkFormData.ingredients} placeholder="Ingredients" required/> */}
                     </div>
                     <div className="form-flex2">
                         <button className="add-ingredient" type="button" onClick={handleAddNewIngredient}>Add New Ingredient</button>
