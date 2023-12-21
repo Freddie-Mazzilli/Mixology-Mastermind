@@ -126,10 +126,8 @@ function AddDrink({fetchDrinks}) {
                 <form onKeyDown={handleKeyPress} onSubmit={addDrink} className="form-flex">
                     <div className="form-flex2">
                         <input className="drink-form" onChange={updateDrinkFormData} type="text" name="name" value={drinkFormData.name} placeholder="Drink Name" required/>
-                        <input className="drink-form" onChange={updateDrinkFormData} type="text" name="image" value={drinkFormData.image} placeholder="Image URL" required/>
+                        <textarea className="drink-form-ingredients" onChange={updateDrinkFormData} type="text" name="image" value={drinkFormData.image} placeholder="Image URL" required/>
                         <textarea className="drink-form-ingredients" onChange={updateDrinkFormData} type="text" name="instructions" value={drinkFormData.instructions} placeholder="Instructions" required/>
-                        <p>Follow this format and input all ingredients in the same line:</p>
-                        <p>"Quantity"; "Ingredient Name", "Quantity"; "Ingredient Name"...</p>
                         {ingredient}
                         {/* <input className="drink-form-ingredients" onChange={updateDrinkFormData} type="text" name="ingredients" value={drinkFormData.ingredients} placeholder="Ingredients" required/> */}
                     </div>

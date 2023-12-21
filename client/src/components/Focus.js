@@ -8,7 +8,7 @@ function Focus({focusDrink, addMyDrinks}) {
         fetch(`http://127.0.0.1:5555/drinks/${focusDrink}`)
         .then(res => res.json())
         .then(selectedDrink => setSelectedDrink(selectedDrink))
-    }, [])
+    }, [focusDrink])
 
     if(!selectedDrink.ingredients){
         return(

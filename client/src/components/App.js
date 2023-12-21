@@ -256,7 +256,7 @@ function App() {
           <h1>Loading...</h1>
       )
     }
-    return <Home user={currentUser} />
+    return <Home user={currentUser} drinks={drinks}/>
   }
 
   useEffect(() => {
